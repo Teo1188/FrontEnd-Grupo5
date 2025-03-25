@@ -1,15 +1,18 @@
-import { useState } from 'react'
-import './index.css'
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import ExtraHour from "./pages/ExtraHour";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <h1 class="text-6xl font-bold underline">
-        Hello world!
-      </h1>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/extrahours" element={<ExtraHour />} />
+      </Routes>
+    </Router>
   )
 }
 
