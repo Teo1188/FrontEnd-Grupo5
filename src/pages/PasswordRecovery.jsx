@@ -12,10 +12,11 @@ const PasswordRecovery = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-800">
       <div className="w-full max-w-md bg-white rounded-xl shadow-2xl p-10">
+        
+        {/* Nuevo Título AMADEUS */}
         <div className="text-center mb-8">
-          <div className="bg-blue-800 text-white px-4 py-2 rounded-md inline-block mb-4">AMADEUS</div>
-          <h2 className="text-2xl font-bold text-blue-800 mb-4">Recuperación de Contraseña</h2>
-          <p className="text-gray-600">
+          <h1 className="text-4xl font-extrabold tracking-wide uppercase text-blue-800">AMADEUS</h1>
+          <p className="text-lg text-gray-600 mt-4">
             Ingresa tu correo electrónico. Te enviaremos instrucciones para restablecer tu contraseña.
           </p>
         </div>
@@ -43,9 +44,9 @@ const PasswordRecovery = () => {
           <div className="text-center">
             <Link 
               to="/login" 
-              className="text-blue-600 hover:underline"
+              className="text-blue-600 hover:underline text-lg"
             >
-              Volver al Inicio de Sesión
+              Volver al inicio de sesión
             </Link>
           </div>
         </form>

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { Clock, LogIn, Users } from 'lucide-react'; // Importamos el icono Users
+import { Users } from 'lucide-react'; 
 
 const schema = yup.object({
   email: yup.string().email("Debe ser un email válido").required("El email es requerido."),
@@ -29,14 +29,12 @@ const Login = () => {
         
         {/* Sección Izquierda */}
         <div className="w-1/2 bg-gradient-to-r from-blue-600 to-blue-800 text-white p-10 flex flex-col justify-center items-center">
-          <div className="mb-6">
-            <div className="bg-white text-blue-800 px-4 py-2 rounded-md inline-block mb-4 font-bold text-lg">
-              AMADEUS
-            </div>
-          </div>
           
+          {/* Nuevo Título AMADEUS */}
+          <h1 className="text-4xl font-extrabold tracking-wide uppercase">AMADEUS</h1>
+
           {/* Icono de Usuarios en Blanco */}
-          <div className="flex items-center justify-center mb-4">
+          <div className="flex items-center justify-center mt-6">
             <Users size={150} strokeWidth={2} className="text-white" />
           </div>
         </div>
