@@ -1,19 +1,18 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import ExtraHour from "./pages/ExtraHour";
+import UserProfile from "./pages/UserProfile";
+import Settings from "./pages/Settings";
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/extrahours" element={<ExtraHour />} />
+      <Route path="/" element={<Navigate to="/userprofile" />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </Router>
   )
 }
 
-export default App
+export default App;
