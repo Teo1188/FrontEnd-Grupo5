@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { Users } from 'lucide-react'; 
+import { CalendarClock } from 'lucide-react'; 
 
 const schema = yup.object({
   email: yup.string().email("Debe ser un email válido").required("El email es requerido."),
@@ -33,9 +33,9 @@ const Login = () => {
           {/* Nuevo Título AMADEUS */}
           <h1 className="text-4xl font-extrabold tracking-wide uppercase">AMADEUS</h1>
 
-          {/* Icono de Usuarios en Blanco */}
+          {/* Nuevo Icono de Calendario con Reloj */}
           <div className="flex items-center justify-center mt-6">
-            <Users size={150} strokeWidth={2} className="text-white" />
+            <CalendarClock size={150} strokeWidth={2} className="text-white" />
           </div>
         </div>
 
