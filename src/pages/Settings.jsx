@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Moon, Sun, Palette, Language, ArrowLeft } from 'lucide-react';
+import { Moon, Sun, Palette } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
@@ -66,7 +66,7 @@ const Settings = () => {
           <section className={`p-4 rounded-xl ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <Language className={`mr-3 ${theme === 'dark' ? 'text-[#00A3E1]' : 'text-[#0070AD]'}`} />
+                {/* <Language className={`mr-3 ${theme === 'dark' ? 'text-[#00A3E1]' : 'text-[#0070AD]'}`} /> */}
                 <span className={`font-semibold ${theme === 'dark' ? 'text-gray-100' : 'text-gray-800'}`}>
                   Idioma
                 </span>
