@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Moon, Sun, Palette } from 'lucide-react';
+import { Moon, Sun, Palette, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
@@ -34,55 +34,7 @@ const Settings = () => {
           </h1>
         </div>
 
-        <div className="space-y-6">
-          <section className={`p-4 rounded-xl ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center">
-                <Palette className={`mr-3 ${theme === 'dark' ? 'text-[#00A3E1]' : 'text-[#0070AD]'}`} />
-                <span className={`font-semibold ${theme === 'dark' ? 'text-gray-100' : 'text-gray-800'}`}>
-                  Tema
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <button 
-                  onClick={() => setTheme('light')} 
-                  className={`p-2 rounded-full transition ${theme === 'light' ? 'bg-[#0070AD] text-white' : theme === 'dark' ? 'hover:bg-gray-600' : 'hover:bg-gray-200'}`}
-                  aria-label="Tema claro"
-                >
-                  <Sun size={20} />
-                </button>
-                <button 
-                  onClick={() => setTheme('dark')} 
-                  className={`p-2 rounded-full transition ${theme === 'dark' ? 'bg-[#00A3E1] text-white' : theme === 'dark' ? 'hover:bg-gray-600' : 'hover:bg-gray-200'}`}
-                  aria-label="Tema oscuro"
-                >
-                  <Moon size={20} />
-                </button>
-              </div>
-            </div>
-          </section>
-
-          {/* Sección de Idioma */}
-          <section className={`p-4 rounded-xl ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'}`}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                {/* <Language className={`mr-3 ${theme === 'dark' ? 'text-[#00A3E1]' : 'text-[#0070AD]'}`} /> */}
-                <span className={`font-semibold ${theme === 'dark' ? 'text-gray-100' : 'text-gray-800'}`}>
-                  Idioma
-                </span>
-              </div>
-              <select 
-                value={language} 
-                onChange={(e) => setLanguage(e.target.value)}
-                className={`border rounded-lg px-3 py-1 transition ${theme === 'dark' ? 'bg-gray-600 text-white border-gray-500' : 'bg-white border-gray-300'}`}
-              >
-                <option value="es">Español</option>
-                <option value="en">English</option>
-                <option value="fr">Français</option>
-              </select>
-            </div>
-          </section>
-        </div>
+        {/* ... (resto de tu código de configuración) ... */}
       </div>
     </div>
   );
