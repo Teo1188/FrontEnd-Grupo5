@@ -34,15 +34,13 @@ const EditProfile = () => {
     <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-b from-blue-600 to-blue-400 p-4">
       <div className="w-full max-w-lg bg-white rounded-3xl shadow-xl p-6">
         
-        {/* Encabezado */}
         <div className="relative bg-gradient-to-r from-blue-500 to-blue-700 h-16 flex items-center rounded-t-3xl px-6">
           <Link to="/" className="text-white">
             <ArrowLeft size={24} />
           </Link>
-          <h2 className="text-lg font-semibold text-white mx-auto">Editar Perfil</h2>
+          <h2 className="text-lg font-semibold text-white mx-auto">Editar perfil</h2>
         </div>
 
-        {/* Formulario */}
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
             <label className="block text-gray-600">Nombre</label>
@@ -80,11 +78,11 @@ const EditProfile = () => {
           </div>
 
           <div>
-            <label className="block text-gray-600">Ubicación</label>
+            <label className="block text-gray-600">Cargo</label>
             <input
               type="text"
-              name="ubicacion"
-              value={formData.ubicacion}
+              name="cargo"
+              value={formData.cargo}
               onChange={handleChange}
               className="w-full mt-1 p-2 border rounded-lg"
             />

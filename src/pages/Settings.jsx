@@ -38,7 +38,7 @@ const Settings = () => {
   return (
     <div className="min-h-screen flex justify-center items-center bg-gradient-to-b from-blue-600 to-blue-300 p-6 dark:bg-gray-900">
       <div className="bg-white shadow-2xl rounded-3xl w-full max-w-lg p-6 dark:bg-gray-800 dark:text-white">
-        {/* Encabezado */}
+  
         <div className="flex items-center mb-6">
           <button onClick={() => navigate(-1)} className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
             <ArrowLeft className="text-blue-700 dark:text-white" />
@@ -46,11 +46,10 @@ const Settings = () => {
           <h1 className="ml-4 text-2xl font-bold text-blue-700 dark:text-white">Configuraciones</h1>
         </div>
 
-        {/* Sección de Preferencias */}
         <div>
           <h3 className="bg-gray-200 text-gray-600 text-sm font-semibold py-2 px-3 rounded-lg dark:bg-gray-700 dark:text-gray-300">PREFERENCIAS</h3>
           <div className="mt-4 space-y-3">
-            {/* Cambio de idioma */}
+
             <div className="flex justify-between items-center py-3 border-b dark:border-gray-600">
               <span className="text-gray-500 dark:text-gray-300">Idioma</span>
               <select
@@ -63,7 +62,6 @@ const Settings = () => {
               </select>
             </div>
 
-            {/* Modo oscuro */}
             <div className="flex justify-between items-center py-3 border-b dark:border-gray-600">
               <span className="text-gray-500 dark:text-gray-300">Modo oscuro</span>
               <button
@@ -74,7 +72,6 @@ const Settings = () => {
               </button>
             </div>
 
-            {/* Notificaciones */}
             <div className="flex justify-between items-center py-3 border-b dark:border-gray-600">
               <span className="text-gray-500 dark:text-gray-300">Recibir notificaciones</span>
               <button
@@ -85,7 +82,6 @@ const Settings = () => {
               </button>
             </div>
 
-            {/* Reproducción en segundo plano */}
             <div className="flex justify-between items-center py-3 border-b dark:border-gray-600">
               <span className="text-gray-500 dark:text-gray-300">Reproducir en segundo plano</span>
               <button
