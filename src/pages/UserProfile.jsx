@@ -35,7 +35,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-600 to-blue-400 flex justify-center items-center p-4">
+    <div className="min-h-screen bg-gradient-to-b from-[#D7D2CB] to-gray-300 flex justify-center items-center p-4">
       <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
         <div className="relative bg-gradient-to-r from-blue-500 to-blue-700 h-36 flex items-center justify-center">
           <ArrowLeft className="absolute top-6 left-6 text-white cursor-pointer" size={32} />

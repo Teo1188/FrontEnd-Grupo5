@@ -36,7 +36,7 @@ const Settings = () => {
   }, [backgroundPlay]);
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-b from-blue-600 to-blue-300 p-6 dark:bg-gray-900">
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-b from-[#D7D2CB] to-gray-300 p-6 dark:bg-gray-900">
       <div className="bg-white shadow-2xl rounded-3xl w-full max-w-lg p-6 dark:bg-gray-800 dark:text-white">
   
         <div className="flex items-center mb-6">
