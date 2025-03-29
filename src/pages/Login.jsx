@@ -3,12 +3,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { CalendarClock } from 'lucide-react'; 
+// import { CalendarClock } from 'lucide-react';
 
 const schema = yup.object({
   email: yup.string().email("Debe ser un email válido").required("El email es requerido."),
   password: yup.string().required("La contraseña es requerida."),
 }).required();
+
+const interval = setInterval(() => { 
+  const viewer = document.querySelector('spline-viewer'); if (viewer && viewer.shadowRoot) {
+     const logo = viewer.shadowRoot.querySelector('#logo'); if (logo) { logo.remove(); 
+       console.log("Logo removed!"); clearInterval(interval); 
+     } 
+    } 
+  }, 500);
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,6 +28,7 @@ const Login = () => {
 
   const onSubmit = data => {
     console.log(data);
+    // Redirigir al dashboard sin validar credenciales (solo maquetación)
     navigate("/dashboard");
   };
 
@@ -28,14 +37,16 @@ const Login = () => {
       <div className="w-full max-w-4xl flex rounded-xl overflow-hidden shadow-2xl">
         
         {/* Sección Izquierda */}
-        <div className="w-1/2 bg-gradient-to-r from-blue-600 to-blue-800 text-white p-10 flex flex-col justify-center items-center">
+        <div className="w-1/2 bg-gradient-to-r from-blue-600 to-blue-800 text-white p-10 flex flex-col items-center">
           
           {/* Nuevo Título AMADEUS */}
-          <h1 className="text-4xl font-extrabold tracking-wide uppercase">AMADEUS</h1>
+          <h1 className="text-4xl font-extrabold tracking-wide uppercase mb-20">AMADEUS</h1>
 
           {/* Nuevo Icono de Calendario con Reloj */}
           <div className="flex items-center justify-center mt-6">
-            <CalendarClock size={150} strokeWidth={2} className="text-white" />
+            {/* <CalendarClock size={150} strokeWidth={2} className="text-white" /> */
+              <spline-viewer url="https://prod.spline.design/HcyR2qwOwEPfr7wU/scene.splinecode" className="spline mb-20"></spline-viewer>
+            }
           </div>
         </div>
 
