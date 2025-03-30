@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTheme } from '../context/ThemeContext'; // Ajusta la ruta según la ubicación
 
 const EditProfile = () => {
   const navigate = useNavigate();
+  const { toggleTheme } = useTheme(); // Accede a la función para alternar el tema
 
   const [formData, setFormData] = useState({
     nombre: "",
     genero: "",
     email: "",
     ubicacion: "",
+    cargo: "",
   });
 
   useEffect(() => {
@@ -27,15 +30,14 @@ const EditProfile = () => {
     e.preventDefault();
     localStorage.setItem("userProfile", JSON.stringify(formData));
     alert("Perfil actualizado con éxito");
-    navigate("/");
+    navigate("/profile");
   };
 
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-b from-[#D7D2CB] to-gray-300 p-4">
       <div className="w-full max-w-lg bg-white rounded-3xl shadow-xl p-6">
-        
         <div className="relative bg-gradient-to-r from-blue-500 to-blue-700 h-16 flex items-center rounded-t-3xl px-6">
-          <Link to="/" className="text-white">
+          <Link to="/userProfile" className="text-white">
             <ArrowLeft size={24} />
           </Link>
           <h2 className="text-lg font-semibold text-white mx-auto">Editar perfil</h2>
@@ -96,6 +98,10 @@ const EditProfile = () => {
           </button>
         </form>
 
+        {/* Botón para alternar el tema */}
+        <button onClick={toggleTheme} className="mt-4 w-full bg-gray-500 text-white py-2 rounded-lg">
+          Alternar Modo Oscuro
+        </button>
       </div>
     </div>
   );

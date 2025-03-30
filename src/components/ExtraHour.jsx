@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Clock } from 'lucide-react';
 
 const ExtraHoursPanel = () => {
   const [registros, setRegistros] = useState([]);
@@ -9,10 +10,30 @@ const ExtraHoursPanel = () => {
     horas: "",
     tipoHoraExtra: "",
   });
+  
+  const [overtimeData, setOvertimeData] = useState({
+    totalHoras: 45,
+    horasAprobadas: 30,
+    horasPendientes: 15
+  });
 
   const agregarRegistro = () => {
     if (nuevoRegistro.nombre && nuevoRegistro.fecha && nuevoRegistro.actividad && nuevoRegistro.horas) {
-      setRegistros([...registros, { ...nuevoRegistro, id: Date.now(), estado: "Pendiente" }]);
+      const nuevoItem = { 
+        ...nuevoRegistro, 
+        id: Date.now(), 
+        estado: "Pendiente" 
+      };
+      
+      setRegistros([...registros, nuevoItem]);
+      
+      // Actualizar el resumen de horas extras
+      setOvertimeData(prev => ({
+        ...prev,
+        totalHoras: prev.totalHoras + Number(nuevoRegistro.horas),
+        horasPendientes: prev.horasPendientes + Number(nuevoRegistro.horas)
+      }));
+      
       setNuevoRegistro({
         nombre: "",
         fecha: "",
@@ -24,7 +45,30 @@ const ExtraHoursPanel = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full p-6">
+      {/* Resumen de horas extras */}
+      <div className="bg-white p-6 rounded-lg shadow">
+        <h3 className="text-xl font-bold mb-4">Resumen de Horas Extras</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="bg-blue-50 p-5 rounded-lg text-center">
+            <Clock className="mx-auto mb-3 text-blue-500" size={40} />
+            <h4 className="text-base text-gray-600">Total horas extra trabajadas</h4>
+            <p className="text-2xl font-bold text-blue-600">{overtimeData.totalHoras}</p>
+          </div>
+          <div className="bg-green-50 p-5 rounded-lg text-center">
+            <Clock className="mx-auto mb-3 text-green-500" size={40} />
+            <h4 className="text-base text-gray-600">Horas aprobadas por administrador</h4>
+            <p className="text-2xl font-bold text-green-600">{overtimeData.horasAprobadas}</p>
+          </div>
+          <div className="bg-yellow-50 p-5 rounded-lg text-center">
+            <Clock className="mx-auto mb-3 text-yellow-500" size={40} />
+            <h4 className="text-base text-gray-600">Horas pendientes por aprobar</h4>
+            <p className="text-2xl font-bold text-yellow-600">{overtimeData.horasPendientes}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Formulario de registro de horas extras */}
       <div className="bg-white p-6 rounded-lg shadow">
         <h2 className="text-xl font-bold mb-4">Registrar Horas Extras</h2>
         
@@ -75,6 +119,7 @@ const ExtraHoursPanel = () => {
         </div>
       </div>
 
+      {/* Historial de horas extras */}
       <div className="bg-white p-6 rounded-lg shadow">
         <h2 className="text-xl font-bold mb-4">Historial de Horas Extras</h2>
         

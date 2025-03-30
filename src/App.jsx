@@ -8,22 +8,25 @@ import UserProfile from './pages/UserProfile';
 import EditProfile from './pages/EditProfile';
 import PasswordRecovery from './pages/PasswordRecovery';
 import Settings from './pages/Settings';
+import { ThemeProvider } from './context/ThemeContext'; // Importa el ThemeProvider
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/password-recovery" element={<PasswordRecovery />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/extrahour" element={<ExtraHour />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/editar-perfil" element={<EditProfile />} />
-        <Route path="/configuracion" element={<Settings />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    </Router>
+    <ThemeProvider> {/* Envuelve tu aplicación con el ThemeProvider */}
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/password-recovery" element={<PasswordRecovery />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/extrahour" element={<ExtraHour />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/editar-perfil" element={<EditProfile />} />
+          <Route path="/configuracion" element={<Settings />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 };
 
@@ -38,7 +41,5 @@ const LayoutWithMenu = ({ children }) => {
     </div>
   );
 };
-
-
 
 export default App;

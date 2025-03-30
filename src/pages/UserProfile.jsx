@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Camera, ArrowLeft, ChevronRight, User, Clock } from "lucide-react";
+import { Camera, ArrowLeft, ChevronRight, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Menu from "../components/Menu";
 
@@ -13,16 +13,16 @@ const UserProfile = () => {
     cargo: "Auxiliar administrativo",
   });
 
-  const [overtimeData, setOvertimeData] = useState({
-    totalHoras: 45,
-    horasAprobadas: 30,
-    horasPendientes: 15
-  });
-
   useEffect(() => {
     const storedData = localStorage.getItem("userProfile");
     if (storedData) {
       setUserData(JSON.parse(storedData));
+    }
+    
+    // Cargar imagen de perfil guardada
+    const storedImage = localStorage.getItem("userProfileImage");
+    if (storedImage) {
+      setProfileImage(storedImage);
     }
   }, []);
 
@@ -95,29 +95,6 @@ const UserProfile = () => {
               ))}
             </div>
 
-            {/* Horas extras */}
-            <h3 className="bg-gray-200 text-gray-600 text-base font-semibold py-2.5 px-4 rounded-lg mt-8">
-              REGISTRO DE HORAS EXTRAS
-            </h3>
-
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div className="bg-blue-50 p-5 rounded-lg text-center">
-                <Clock className="mx-auto mb-3 text-blue-500" size={40} />
-                <h4 className="text-base text-gray-600">Total horas extra trabajadas</h4>
-                <p className="text-2xl font-bold text-blue-600">{overtimeData.totalHoras}</p>
-              </div>
-              <div className="bg-green-50 p-5 rounded-lg text-center">
-                <Clock className="mx-auto mb-3 text-green-500" size={40} />
-                <h4 className="text-base text-gray-600">Horas aprobadas por administrador</h4>
-                <p className="text-2xl font-bold text-green-600">{overtimeData.horasAprobadas}</p>
-              </div>
-              <div className="bg-yellow-50 p-5 rounded-lg text-center">
-                <Clock className="mx-auto mb-3 text-yellow-500" size={40} />
-                <h4 className="text-base text-gray-600">Horas pendientes por aprobar</h4>
-                <p className="text-2xl font-bold text-yellow-600">{overtimeData.horasPendientes}</p>
-              </div>
-            </div>
-
             {/* Botón de configuración */}
             <div className="mt-8 flex justify-center">
               <button
@@ -126,11 +103,11 @@ const UserProfile = () => {
               >
                 Configuración
               </button>
+            </div>   
             </div>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
