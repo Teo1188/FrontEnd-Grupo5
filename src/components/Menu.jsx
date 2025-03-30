@@ -1,52 +1,41 @@
-import React, { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 const Menu = () => {
-  const [isOpen, setIsOpen] = useState(true);
-  const navigate = useNavigate();
-
-  const handleNavigation = (path) => {
-    navigate(path);
-  };
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className={`bg-blue-900 text-white h-full p-5 pt-8 transition-all duration-300 ${isOpen ? "w-64" : "w-20"}`}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="absolute top-5 left-[200px] bg-white text-blue-900 rounded-full p-2 shadow-md"
-      >
-        {isOpen ? <FaTimes size={18} /> : <FaBars size={18} />}
-      </button>
+    <div className="flex">
+      {/* Contenedor del menú */}
+      <div className={`fixed top-0 left-0 h-full bg-blue-900 text-white transition-all duration-300 ${isOpen ? "w-64" : "w-16"}`}>
+        {/* Botón para abrir/cerrar */}
+        <div className="flex items-center justify-between px-4 py-4">
 
-      <div className="flex items-center space-x-2">
-        {isOpen ? (
-          <h1 className="text-xl font-bold">Principal</h1>
-        ) : (
-          <h1 className="text-xl font-bold text-center w-full">P</h1>
-        )}
+          <button onClick={() => setIsOpen(!isOpen)} className="text-white">
+            {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          </button>
+        </div>
+
+        {/* Lista de opciones */}
+        <ul className={`mt-5 px-5 space-y-3 ${isOpen ? "block" : "hidden"}`}>
+        <NavLink to="/dashboard" className="block p-2 hover:bg-blue-700 rounded cursor-pointer">
+              Mis horas extra
+            </NavLink>
+          <li className="p-2 bg-transparent hover:bg-blue-700 rounded cursor-pointer">Aprobaciones</li>
+          <li className="p-2 bg-transparent hover:bg-blue-700 rounded cursor-pointer">Rechazadas</li>
+          <li className="p-2 bg-transparent hover:bg-blue-700 rounded cursor-pointer">Configuración</li>
+           <NavLink to="/profile" className="block p-2 hover:bg-blue-700 rounded cursor-pointer">
+              Mi perfil
+            </NavLink>
+        </ul>
       </div>
 
-      <ul className="mt-10 space-y-4">
-        <li className="hover:bg-blue-700 p-2 rounded-md cursor-pointer flex items-center">
-          {isOpen ? "Mis horas extras" : "H"}
-        </li>
-        <li className="hover:bg-blue-700 p-2 rounded-md cursor-pointer flex items-center">
-          {isOpen ? "Aprobaciones" : "A"}
-        </li>
-        <li className="hover:bg-blue-700 p-2 rounded-md cursor-pointer flex items-center">
-          {isOpen ? "Rechazadas" : "R"}
-        </li>
+      {/* Contenido de la página que se ajusta al tamaño del menú */}
+      <div className={`transition-all duration-300 ${isOpen ? "ml-64" : "ml-16"}`}>
         
-        {isOpen && <li className="mt-6 text-gray-400">Configuración</li>}
-        
-        <li 
-          className="hover:bg-blue-700 p-2 rounded-md cursor-pointer flex items-center"
-          onClick={() => handleNavigation('/profile')}
-        >
-          {isOpen ? "Mi perfil" : "P"}
-        </li>
-      </ul>
+        {/* Aquí va el resto del contenido de la página */}
+      </div>
     </div>
   );
 };
