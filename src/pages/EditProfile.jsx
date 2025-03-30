@@ -32,7 +32,7 @@ const EditProfile = () => {
     alert("Perfil actualizado con éxito");
     navigate("/profile");
   };
-
+  
   return (
     <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-b from-[#D7D2CB] to-gray-300 p-4">
       <div className="w-full max-w-lg bg-white rounded-3xl shadow-xl p-6">
