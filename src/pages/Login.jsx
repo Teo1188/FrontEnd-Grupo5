@@ -34,14 +34,12 @@ const Login = () => {
       }, 500);
     };
 
-    // Ejecutar inmediatamente al montar el componente
     removeSplineLogo();
 
-    // Limpiar el intervalo al desmontar el componente
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, []); // El array vacío asegura que solo se ejecute al montar el componente
+  }, []); 
 
   const onSubmit = data => {
     console.log(data);
@@ -51,8 +49,7 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-800">
       <div className="w-full max-w-4xl flex rounded-xl overflow-hidden shadow-2xl">
-        
-        {/* Sección Izquierda */}
+ 
         <div className="w-1/2 bg-gradient-to-r from-blue-600 to-blue-800 text-white p-10 flex flex-col items-center">
           <h1 className="text-4xl font-extrabold tracking-wide uppercase mb-20">AMADEUS</h1>
 
@@ -61,7 +58,6 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Sección Derecha */}
         <div className="w-1/2 bg-white p-10 flex flex-col justify-center">
           <h3 className="text-2xl font-bold text-blue-800 mb-6">Acceso al sistema</h3>
           <p className="mb-6 text-gray-600">Ingresa tus credenciales para continuar</p>

@@ -13,7 +13,7 @@ const PasswordRecovery = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-800">
       <div className="w-full max-w-md bg-white rounded-xl shadow-2xl p-10">
         
-        {/* Nuevo Título AMADEUS */}
+
         <div className="text-center mb-8">
           <h1 className="text-4xl font-extrabold tracking-wide uppercase text-blue-800">AMADEUS</h1>
           <p className="text-lg text-gray-600 mt-4">

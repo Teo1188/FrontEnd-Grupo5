@@ -8,11 +8,13 @@ import UserProfile from './pages/UserProfile';
 import EditProfile from './pages/EditProfile';
 import PasswordRecovery from './pages/PasswordRecovery';
 import Settings from './pages/Settings';
-import { ThemeProvider } from './context/ThemeContext'; // Importa el ThemeProvider
+import { ThemeProvider } from './context/ThemeContext'; 
+import { LanguageProvider } from './context/LanguageContext'; 
 
 const App = () => {
   return (
-    <ThemeProvider> {/* Envuelve tu aplicación con el ThemeProvider */}
+    <ThemeProvider>
+      <LanguageProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
@@ -26,19 +28,8 @@ const App = () => {
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </Router>
+      </LanguageProvider>
     </ThemeProvider>
-  );
-};
-
-// Componente de layout que incluye el menú
-const LayoutWithMenu = ({ children }) => {
-  return (
-    <div className="flex h-screen">
-      <Menu />
-      <div className="flex flex-col flex-grow">
-        {children}
-      </div>
-    </div>
   );
 };
 
