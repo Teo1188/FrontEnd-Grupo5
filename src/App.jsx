@@ -6,6 +6,7 @@ import ExtraHour from './components/ExtraHour';
 import Menu from './components/Menu';
 import UserProfile from './pages/UserProfile';
 import EditProfile from './pages/EditProfile';
+import PasswordRecovery from './pages/PasswordRecovery';
 import Settings from './pages/Settings';
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/password-recovery" element={<PasswordRecovery />} />
         <Route path="/login" element={<Login />} />
         <Route path="/extrahour" element={<ExtraHour />} />
         <Route path="/dashboard" element={<Dashboard />} />
