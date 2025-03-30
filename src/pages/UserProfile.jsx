@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Camera, ArrowLeft, ChevronRight, User, Clock } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Menu from "../components/Menu"; // Importa el Menú lateral
+import Menu from "../components/Menu";
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -36,47 +36,26 @@ const UserProfile = () => {
   };
 
   return (
-
-    <div className="min-h-screen bg-gradient-to-b from-[#D7D2CB] to-gray-300 flex justify-center items-center p-4">
-      <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
-        <div className="relative bg-gradient-to-r from-blue-500 to-blue-700 h-36 flex items-center justify-center">
-          <ArrowLeft className="absolute top-6 left-6 text-white cursor-pointer" size={32} />
-          <Link to="/editar-perfil" className="absolute top-6 right-6 text-lg font-semibold text-white hover:underline">
-            Editar perfil
-          </Link>
-        </div>
-
-        <div className="relative -mt-16 flex justify-center mb-8">
-          <label className="relative cursor-pointer">
-            <input type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
-            <div className="w-36 h-36 rounded-full border-4 border-white bg-gray-200 shadow-lg flex items-center justify-center overflow-hidden">
-              {profileImage ? (
-                <img src={profileImage} alt="Perfil" className="w-full h-full object-cover" />
-              ) : (
-                <User size={72} className="text-gray-500" />
-              )}
-            </div>
-            <div className="absolute bottom-2 right-2 bg-white p-2.5 rounded-full shadow-md">
-              <Camera size={20} className="text-blue-500" />
-            </div>
-          </label>
-        </div>
-
-    <div className="flex">
+    <div className="flex min-h-screen bg-gradient-to-b from-[#D7D2CB] to-gray-300">
       {/* Menú lateral */}
       <Menu />
 
-
       {/* Contenido principal */}
-      <div className="flex-1 min-h-screen bg-gradient-to-b from-blue-600 to-blue-400 flex justify-center items-center p-4">
-        <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden">
+      <div className="flex-1 p-6">
+        <div className="w-full max-w-2xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
+          {/* Encabezado con gradiente azul */}
           <div className="relative bg-gradient-to-r from-blue-500 to-blue-700 h-36 flex items-center justify-center">
-            <ArrowLeft className="absolute top-6 left-6 text-white cursor-pointer" size={32} />
+            <ArrowLeft 
+              className="absolute top-6 left-6 text-white cursor-pointer" 
+              size={32} 
+              onClick={() => navigate(-1)}
+            />
             <Link to="/editar-perfil" className="absolute top-6 right-6 text-lg font-semibold text-white hover:underline">
               Editar perfil
             </Link>
           </div>
 
+          {/* Foto de perfil */}
           <div className="relative -mt-16 flex justify-center mb-8">
             <label className="relative cursor-pointer">
               <input type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
@@ -93,6 +72,7 @@ const UserProfile = () => {
             </label>
           </div>
 
+          {/* Información del usuario */}
           <div className="px-8 pb-8">
             <h3 className="bg-gray-200 text-gray-600 text-base font-semibold py-2.5 px-4 rounded-lg">
               INFORMACIÓN BÁSICA
@@ -115,11 +95,12 @@ const UserProfile = () => {
               ))}
             </div>
 
+            {/* Horas extras */}
             <h3 className="bg-gray-200 text-gray-600 text-base font-semibold py-2.5 px-4 rounded-lg mt-8">
               REGISTRO DE HORAS EXTRAS
             </h3>
 
-            <div className="mt-4 grid grid-cols-3 gap-5">
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="bg-blue-50 p-5 rounded-lg text-center">
                 <Clock className="mx-auto mb-3 text-blue-500" size={40} />
                 <h4 className="text-base text-gray-600">Total horas extra trabajadas</h4>
@@ -137,6 +118,7 @@ const UserProfile = () => {
               </div>
             </div>
 
+            {/* Botón de configuración */}
             <div className="mt-8 flex justify-center">
               <button
                 onClick={() => navigate("/configuracion")}
