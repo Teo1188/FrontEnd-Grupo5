@@ -3,7 +3,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { FaBell } from 'react-icons/fa';
 
 const userNavigation = [
-  { name: 'Tu Perfil', href: '#' },
+  { name: 'Tu Perfil', href: '/profile' },
   { name: 'Cerrar Sesión', href: '/login' },
 ];
 

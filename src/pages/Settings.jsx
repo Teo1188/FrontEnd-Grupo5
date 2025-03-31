@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Moon, Sun, Globe, Bell, Play, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import Menu from "../components/Menu";
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -37,6 +38,8 @@ const Settings = () => {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gradient-to-b from-[#D7D2CB] to-gray-300 p-6 dark:bg-gray-900">
+      {/* Menú lateral */}
+    <Menu />
       <div className="bg-white shadow-2xl rounded-3xl w-full max-w-lg p-6 dark:bg-gray-800 dark:text-white">
   
         <div className="flex items-center mb-6">

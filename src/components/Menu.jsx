@@ -24,10 +24,12 @@ const Menu = () => {
             </NavLink>
           <li className="p-2 bg-transparent hover:bg-blue-700 rounded cursor-pointer">Aprobaciones</li>
           <li className="p-2 bg-transparent hover:bg-blue-700 rounded cursor-pointer">Rechazadas</li>
-          <li className="p-2 bg-transparent hover:bg-blue-700 rounded cursor-pointer">Configuración</li>
-           <NavLink to="/profile" className="block p-2 hover:bg-blue-700 rounded cursor-pointer">
+          <NavLink to="/configuracion" className="block p-2 hover:bg-blue-700 rounded cursor-pointer">
+              Configuración
+          </NavLink>
+          <NavLink to="/profile" className="block p-2 hover:bg-blue-700 rounded cursor-pointer">
               Mi perfil
-            </NavLink>
+          </NavLink>
         </ul>
       </div>
 
