@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Camera, ArrowLeft, ChevronRight, User, Clock } from "lucide-react";
+import { Camera, ArrowLeft, ChevronRight, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Menu from "../components/Menu";
+import { useTheme } from '../context/ThemeContext'; 
+import { useLanguage } from '../context/LanguageContext'; 
 
 const UserProfile = () => {
   const navigate = useNavigate();
+  const { theme, isDark } = useTheme(); 
+  const { t } = useLanguage();
   const [profileImage, setProfileImage] = useState(null);
   const [userData, setUserData] = useState({
     nombre: "Tharaka",
@@ -13,16 +17,15 @@ const UserProfile = () => {
     cargo: "Auxiliar administrativo",
   });
 
-  const [overtimeData, setOvertimeData] = useState({
-    totalHoras: 45,
-    horasAprobadas: 30,
-    horasPendientes: 15
-  });
-
   useEffect(() => {
     const storedData = localStorage.getItem("userProfile");
     if (storedData) {
       setUserData(JSON.parse(storedData));
+    }
+
+    const storedImage = localStorage.getItem("userProfileImage");
+    if (storedImage) {
+      setProfileImage(storedImage);
     }
   }, []);
 
@@ -36,15 +39,22 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-b from-[#D7D2CB] to-gray-300">
-      {/* Menú lateral */}
+    <div className={`flex min-h-screen transition-colors duration-200 ${
+      isDark 
+        ? "bg-gradient-to-b from-gray-900 to-gray-800" 
+        : "bg-gradient-to-b from-[#D7D2CB] to-gray-300"
+    }`}>
       <Menu />
 
-      {/* Contenido principal */}
       <div className="flex-1 p-6">
-        <div className="w-full max-w-2xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden">
-          {/* Encabezado con gradiente azul */}
-          <div className="relative bg-gradient-to-r from-blue-500 to-blue-700 h-36 flex items-center justify-center">
+        <div className={`w-full max-w-2xl mx-auto rounded-3xl shadow-xl overflow-hidden transition-colors duration-200 ${
+          isDark ? "bg-gray-800" : "bg-white"
+        }`}>
+          <div className={`relative h-36 flex items-center justify-center transition-colors duration-200 ${
+            isDark 
+              ? "bg-gradient-to-r from-blue-800 to-blue-900" 
+              : "bg-gradient-to-r from-blue-500 to-blue-700"
+          }`}>
             <ArrowLeft 
               className="absolute top-6 left-6 text-white cursor-pointer" 
               size={32} 
@@ -55,7 +65,6 @@ const UserProfile = () => {
             </Link>
           </div>
 
-          {/* Foto de perfil */}
           <div className="relative -mt-16 flex justify-center mb-8">
             <label className="relative cursor-pointer">
               <input type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
@@ -66,15 +75,18 @@ const UserProfile = () => {
                   <User size={72} className="text-gray-500" />
                 )}
               </div>
-              <div className="absolute bottom-2 right-2 bg-white p-2.5 rounded-full shadow-md">
+              <div className={`absolute bottom-2 right-2 p-2.5 rounded-full shadow-md transition-colors duration-200 ${
+                isDark ? 'bg-gray-700' : 'bg-white'
+              }`}>
                 <Camera size={20} className="text-blue-500" />
               </div>
             </label>
           </div>
 
-          {/* Información del usuario */}
           <div className="px-8 pb-8">
-            <h3 className="bg-gray-200 text-gray-600 text-base font-semibold py-2.5 px-4 rounded-lg">
+            <h3 className={`text-base font-semibold py-2.5 px-4 rounded-lg transition-colors duration-200 ${
+              isDark ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-600"
+            }`}>
               INFORMACIÓN BÁSICA
             </h3>
 
@@ -85,48 +97,32 @@ const UserProfile = () => {
                 { label: "Correo electrónico", value: userData.email },
                 { label: "Cargo", value: userData.cargo },
               ].map((item, index) => (
-                <div key={index} className="flex justify-between items-center py-3.5 border-b">
-                  <span className="text-base text-gray-500">{item.label}</span>
+                <div key={index} className={`flex justify-between items-center py-3.5 border-b transition-colors duration-200 ${
+                  isDark ? "border-gray-700" : "border-gray-200"
+                }`}>
+                  <span className={`text-base transition-colors duration-200 ${
+                    isDark ? "text-gray-400" : "text-gray-500"
+                  }`}>{item.label}</span>
                   <div className="flex items-center gap-3">
-                    <span className="text-base text-gray-800 font-medium">{item.value}</span>
+                    <span className={`text-base font-medium transition-colors duration-200 ${
+                      isDark ? "text-gray-200" : "text-gray-800"
+                    }`}>{item.value}</span>
                     <ChevronRight size={22} className="text-gray-400" />
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Horas extras */}
-            <h3 className="bg-gray-200 text-gray-600 text-base font-semibold py-2.5 px-4 rounded-lg mt-8">
-              REGISTRO DE HORAS EXTRAS
-            </h3>
-
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div className="bg-blue-50 p-5 rounded-lg text-center">
-                <Clock className="mx-auto mb-3 text-blue-500" size={40} />
-                <h4 className="text-base text-gray-600">Total horas extra trabajadas</h4>
-                <p className="text-2xl font-bold text-blue-600">{overtimeData.totalHoras}</p>
-              </div>
-              <div className="bg-green-50 p-5 rounded-lg text-center">
-                <Clock className="mx-auto mb-3 text-green-500" size={40} />
-                <h4 className="text-base text-gray-600">Horas aprobadas por administrador</h4>
-                <p className="text-2xl font-bold text-green-600">{overtimeData.horasAprobadas}</p>
-              </div>
-              <div className="bg-yellow-50 p-5 rounded-lg text-center">
-                <Clock className="mx-auto mb-3 text-yellow-500" size={40} />
-                <h4 className="text-base text-gray-600">Horas pendientes por aprobar</h4>
-                <p className="text-2xl font-bold text-yellow-600">{overtimeData.horasPendientes}</p>
-              </div>
-            </div>
-
-            {/* Botón de configuración */}
             <div className="mt-8 flex justify-center">
               <button
                 onClick={() => navigate("/configuracion")}
-                className="bg-blue-400 hover:bg-blue-500 text-white font-semibold py-3.5 px-8 rounded-lg shadow-md transition text-base"
+                className={`text-white font-semibold py-3.5 px-8 rounded-lg shadow-md transition text-base ${
+                  isDark ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-400 hover:bg-blue-500"
+                }`}
               >
                 Configuración
               </button>
-            </div>
+            </div>   
           </div>
         </div>
       </div>

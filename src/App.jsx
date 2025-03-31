@@ -8,37 +8,29 @@ import UserProfile from './pages/UserProfile';
 import EditProfile from './pages/EditProfile';
 import PasswordRecovery from './pages/PasswordRecovery';
 import Settings from './pages/Settings';
+import { ThemeProvider } from './context/ThemeContext'; 
+import { LanguageProvider } from './context/LanguageContext'; 
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/password-recovery" element={<PasswordRecovery />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/extrahour" element={<ExtraHour />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/editar-perfil" element={<EditProfile />} />
-        <Route path="/configuracion" element={<Settings />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    </Router>
+    <ThemeProvider>
+      <LanguageProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/password-recovery" element={<PasswordRecovery />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/extrahour" element={<ExtraHour />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/editar-perfil" element={<EditProfile />} />
+          <Route path="/configuracion" element={<Settings />} />
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Router>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 };
-
-// Componente de layout que incluye el menú
-const LayoutWithMenu = ({ children }) => {
-  return (
-    <div className="flex h-screen">
-      <Menu />
-      <div className="flex flex-col flex-grow">
-        {children}
-      </div>
-    </div>
-  );
-};
-
-
 
 export default App;
