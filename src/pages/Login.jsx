@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
+
 const schema = yup.object({
   email: yup.string().email("Debe ser un email válido").required("El email es requerido."),
   password: yup.string().required("La contraseña es requerida."),

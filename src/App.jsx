@@ -1,44 +1,37 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import ExtraHour from './components/ExtraHour';
-import Menu from './components/Menu';
-import UserProfile from './pages/UserProfile';
-import EditProfile from './pages/EditProfile';
-import PasswordRecovery from './pages/PasswordRecovery';
-import Settings from './pages/Settings';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { ExtraHoursProvider } from "./context/ExtraHoursContext"; // Importa el contexto
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import ExtraHoursPanel from "./components/ExtraHoursPanel";
+import AdminPanel from "./pages/AdminPanel";
+import UserProfile from "./pages/UserProfile"; // Asegúrate de que esta sea la ruta correcta
+import EditProfile from "./pages/EditProfile";
+import Settings from "./pages/Settings";
+import PasswordRecovery from "./pages/PasswordRecovery";
+import LayoutWithMenu from "./components/LayoutWithMenu"; // Importa el Layout con menú
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/password-recovery" element={<PasswordRecovery />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/extrahour" element={<ExtraHour />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/editar-perfil" element={<EditProfile />} />
-        <Route path="/configuracion" element={<Settings />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    </Router>
+    <ExtraHoursProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/password-recovery" element={<PasswordRecovery />} />
+          <Route path="/dashboard" element={<LayoutWithMenu><Dashboard /></LayoutWithMenu>} />
+          <Route path="/Settings" element={<LayoutWithMenu><Settings /></LayoutWithMenu>} />
+          <Route path="/extrahour" element={<LayoutWithMenu><ExtraHoursPanel /></LayoutWithMenu>} />
+          <Route path="/admin-panel" element={<LayoutWithMenu><AdminPanel /></LayoutWithMenu>} />
+          <Route path="/profile" element={<LayoutWithMenu><UserProfile /></LayoutWithMenu>} />
+          <Route path="/editar-perfil" element={<LayoutWithMenu><EditProfile /></LayoutWithMenu>} />
+           
+          {/* Redirección en caso de rutas desconocidas */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
+      </Router>
+    </ExtraHoursProvider>
   );
 };
-
-// Componente de layout que incluye el menú
-const LayoutWithMenu = ({ children }) => {
-  return (
-    <div className="flex h-screen">
-      <Menu />
-      <div className="flex flex-col flex-grow">
-        {children}
-      </div>
-    </div>
-  );
-};
-
-
 
 export default App;
