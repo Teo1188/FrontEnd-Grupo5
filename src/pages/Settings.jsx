@@ -32,25 +32,37 @@ const Settings = () => {
     localStorage.setItem('notifications', 'false');
   };
 
+  // Aplicando el modo oscuro a todo el documento
+  useEffect(() => {
+    // Cambiar el color de fondo del body
+    document.body.className = isDark ? 'bg-gray-900' : 'bg-white';
+    
+    // Seleccionar el elemento main y actualizar su clase
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      // Mantener las clases existentes pero reemplazar la clase de fondo
+      const classes = mainElement.className.replace(/bg-\w+-\d+/g, '');
+      mainElement.className = `${classes} ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`.trim();
+    }
+  }, [isDark]);
+
   return (
     <div className={`min-h-screen flex justify-center items-center p-6 transition-colors duration-200 ${
-      isDark ? 'bg-gradient-to-b from-gray-900 to-gray-800' : 'bg-gradient-to-b from-[#D7D2CB] to-gray-300'
+      isDark ? 'bg-gray-900 text-white' : 'bg-white text-black'
     }`}>
       <div className={`shadow-2xl rounded-3xl w-full max-w-lg p-6 transition-colors duration-200 ${
-        isDark ? 'bg-gray-800' : 'bg-white'
+        isDark ? 'bg-gray-800 text-white' : 'bg-white text-black'
       }`}>
         <div className="flex items-center mb-6">
           <button 
             onClick={() => navigate(-1)} 
             className={`p-2 rounded-full transition-colors duration-200 ${
-              isDark ? 'hover:bg-gray-700' : 'hover:bg-gray-200'
+              isDark ? 'hover:bg-gray-700 text-blue-400' : 'hover:bg-gray-200 text-blue-700'
             }`}
           >
-            <ArrowLeft className={`${isDark ? 'text-blue-400' : 'text-blue-700'}`} />
+            <ArrowLeft />
           </button>
-          <h1 className={`ml-4 text-2xl font-bold transition-colors duration-200 ${
-            isDark ? 'text-white' : 'text-black'
-          }`}>
+          <h1 className="ml-4 text-2xl font-bold">
             {t('settings')}
           </h1>
         </div>
@@ -66,9 +78,7 @@ const Settings = () => {
             <div className={`flex justify-between items-center py-3 border-b transition-colors duration-200 ${
               isDark ? 'border-gray-600' : 'border-gray-200'
             }`}>
-              <span className={`transition-colors duration-200 ${
-                isDark ? 'text-white' : 'text-black'
-              }`}>
+              <span>
                 {t('language')}
               </span>
               <select
@@ -77,7 +87,7 @@ const Settings = () => {
                 className={`font-medium border-none focus:outline-none transition-colors duration-200 ${
                   isDark 
                     ? 'text-white bg-gray-800' 
-                    : 'text-gray-800 bg-transparent'
+                    : 'text-gray-800 bg-white'
                 }`}
               >
                 <option value="es" className={isDark ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}>
@@ -92,9 +102,7 @@ const Settings = () => {
             <div className={`flex justify-between items-center py-3 border-b transition-colors duration-200 ${
               isDark ? 'border-gray-600' : 'border-gray-200'
             }`}>
-              <span className={`transition-colors duration-200 ${
-                isDark ? 'text-white' : 'text-black'
-              }`}>
+              <span>
                 {t('darkMode')}
               </span>
               <button
@@ -113,9 +121,7 @@ const Settings = () => {
             <div className={`flex justify-between items-center py-3 border-b transition-colors duration-200 ${
               isDark ? 'border-gray-600' : 'border-gray-200'
             }`}>
-              <span className={`transition-colors duration-200 ${
-                isDark ? 'text-white' : 'text-black'
-              }`}>
+              <span>
                 {t('notifications')}
               </span>
               <button
@@ -134,9 +140,7 @@ const Settings = () => {
             <div className={`flex justify-between items-center py-3 border-b transition-colors duration-200 ${
               isDark ? 'border-gray-600' : 'border-gray-200'
             }`}>
-              <span className={`transition-colors duration-200 ${
-                isDark ? 'text-white' : 'text-black'
-              }`}>
+              <span>
                 {t('reset')}
               </span>
               <button

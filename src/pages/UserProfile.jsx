@@ -27,7 +27,17 @@ const UserProfile = () => {
     if (storedImage) {
       setProfileImage(storedImage);
     }
-  }, []);
+    
+    // Asegurar que el body y cualquier contenedor principal tenga el fondo correcto
+    document.body.className = isDark ? 'bg-gray-900' : 'bg-white';
+    
+    // Aplicar el tema oscuro al contenedor principal si existe
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      const classes = mainElement.className.replace(/bg-\w+-\d+/g, '');
+      mainElement.className = `${classes} ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`.trim();
+    }
+  }, [isDark]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -41,18 +51,18 @@ const UserProfile = () => {
   return (
     <div className={`flex min-h-screen transition-colors duration-200 ${
       isDark 
-        ? "bg-gradient-to-b from-gray-900 to-gray-800" 
-        : "bg-gradient-to-b from-[#D7D2CB] to-gray-300"
+        ? "bg-gray-900" // Cambiado a un color sólido más oscuro
+        : "bg-white"
     }`}>
       <Menu />
 
       <div className="flex-1 p-6">
         <div className={`w-full max-w-2xl mx-auto rounded-3xl shadow-xl overflow-hidden transition-colors duration-200 ${
-          isDark ? "bg-gray-800" : "bg-white"
+          isDark ? "bg-gray-900 border border-gray-700" : "bg-white"
         }`}>
           <div className={`relative h-36 flex items-center justify-center transition-colors duration-200 ${
             isDark 
-              ? "bg-gradient-to-r from-blue-800 to-blue-900" 
+              ? "bg-gradient-to-r from-blue-900 to-blue-950" 
               : "bg-gradient-to-r from-blue-500 to-blue-700"
           }`}>
             <ArrowLeft 
@@ -76,7 +86,7 @@ const UserProfile = () => {
                 )}
               </div>
               <div className={`absolute bottom-2 right-2 p-2.5 rounded-full shadow-md transition-colors duration-200 ${
-                isDark ? 'bg-gray-700' : 'bg-white'
+                isDark ? 'bg-gray-800' : 'bg-white'
               }`}>
                 <Camera size={20} className="text-blue-500" />
               </div>
@@ -85,7 +95,7 @@ const UserProfile = () => {
 
           <div className="px-8 pb-8">
             <h3 className={`text-base font-semibold py-2.5 px-4 rounded-lg transition-colors duration-200 ${
-              isDark ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-600"
+              isDark ? "bg-gray-800 text-gray-300" : "bg-gray-200 text-gray-600"
             }`}>
               INFORMACIÓN BÁSICA
             </h3>
@@ -117,7 +127,7 @@ const UserProfile = () => {
               <button
                 onClick={() => navigate("/configuracion")}
                 className={`text-white font-semibold py-3.5 px-8 rounded-lg shadow-md transition text-base ${
-                  isDark ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-400 hover:bg-blue-500"
+                  isDark ? "bg-blue-800 hover:bg-blue-700" : "bg-blue-400 hover:bg-blue-500"
                 }`}
               >
                 Configuración

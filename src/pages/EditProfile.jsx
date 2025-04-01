@@ -34,9 +34,9 @@ const EditProfile = () => {
   };
   
   return (
-    <div className={`w-screen h-screen flex items-center justify-center p-4 transition-colors duration-200 ${
+    <div className={`w-screen h-screen flex items-center justify-center p-4 overflow-hidden transition-colors duration-200 ${
       isDark 
-        ? "bg-gradient-to-b from-gray-900 to-gray-800" 
+        ? "bg-gray-900" // Cambiado a un color sólido para el fondo oscuro
         : "bg-gradient-to-b from-[#D7D2CB] to-gray-300"
     }`}>
       <div className={`w-full max-w-lg rounded-3xl shadow-xl p-6 transition-colors duration-200 ${
