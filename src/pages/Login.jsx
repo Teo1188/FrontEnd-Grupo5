@@ -49,12 +49,17 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-800">
       <div className="w-full max-w-4xl flex rounded-xl overflow-hidden shadow-2xl">
- 
-        <div className="w-1/2 bg-gradient-to-r from-blue-600 to-blue-800 text-white p-10 flex flex-col items-center">
-          <h1 className="text-4xl font-extrabold tracking-wide uppercase mb-20">AMADEUS</h1>
-
-          <div className="flex items-center justify-center mt-6">
-            <spline-viewer url="https://prod.spline.design/HcyR2qwOwEPfr7wU/scene.splinecode" className="spline mb-20"></spline-viewer>
+        
+        <div className="w-1/2 bg-gradient-to-r from-blue-600 to-blue-800 text-white relative">
+          
+          <h1 className="text-2xl font-extrabold tracking-wide uppercase absolute top-6 left-6 z-10">AMADEUS</h1>
+          
+          <div className="absolute inset-0 z-0 opacity-50">
+            <spline-viewer 
+              url="https://prod.spline.design/HcyR2qwOwEPfr7wU/scene.splinecode" 
+              className="w-full h-full"
+              loading="eager"
+            ></spline-viewer>
           </div>
         </div>
 

@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Navbar from './Navbar';
 import { FaBars, FaTimes, FaUserShield } from "react-icons/fa";
-import { NavLink, Outlet } from "react-router-dom";
-import { Clock, UserCheck, User } from "lucide-react";
+import { NavLink } from "react-router-dom";
+import { Clock, User } from "lucide-react";
 
-const Menu = () => {
+const Layout = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex">
+    <div className="flex h-screen bg-gray-100">
       {/* Menú lateral */}
       <div className={`fixed top-0 left-0 h-full bg-blue-900 text-white transition-all duration-300 ${isOpen ? "w-64" : "w-16"}`}>
         
@@ -23,25 +25,22 @@ const Menu = () => {
           <NavLink 
             to="/dashboard" 
             className="flex items-center p-2 hover:bg-blue-700 rounded cursor-pointer"
-            activeClassName="bg-blue-800"
           >
             <Clock className="mr-3" size={18} />
             <span>Mis horas extra</span>
           </NavLink>
           
           <NavLink 
-            to="/dashboard/admin-panel" 
+            to="/admin-panel" 
             className="flex items-center p-2 hover:bg-blue-700 rounded cursor-pointer"
-            activeClassName="bg-blue-800"
           >
             <FaUserShield className="mr-3" size={18} />
             <span>Administrador</span>
           </NavLink>
           
           <NavLink 
-            to="/dashboard/profile" 
+            to="/profile" 
             className="flex items-center p-2 hover:bg-blue-700 rounded cursor-pointer"
-            activeClassName="bg-blue-800"
           >
             <User className="mr-3" size={18} />
             <span>Mi perfil</span>
@@ -53,25 +52,22 @@ const Menu = () => {
           <NavLink 
             to="/dashboard" 
             className="flex justify-center p-2 hover:bg-blue-700 rounded cursor-pointer"
-            activeClassName="bg-blue-800"
             title="Mis horas extra"
           >
             <Clock size={20} />
           </NavLink>
           
           <NavLink 
-            to="/dashboard/admin-panel" 
+            to="/admin-panel" 
             className="flex justify-center p-2 hover:bg-blue-700 rounded cursor-pointer"
-            activeClassName="bg-blue-800"
             title="Administrador"
           >
             <FaUserShield size={20} />
           </NavLink>
           
           <NavLink 
-            to="/dashboard/profile" 
+            to="/profile" 
             className="flex justify-center p-2 hover:bg-blue-700 rounded cursor-pointer"
-            activeClassName="bg-blue-800"
             title="Mi perfil"
           >
             <User size={20} />
@@ -80,11 +76,14 @@ const Menu = () => {
       </div>
 
       {/* Contenido principal */}
-      <div className={`flex-1 transition-all duration-300 ${isOpen ? "ml-64" : "ml-16"}`}>
-        <Outlet />
+      <div className={`flex flex-col flex-1 transition-all duration-300 ${isOpen ? "ml-64" : "ml-16"}`}>
+        <Navbar />
+        <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
+          <Outlet />
+        </main>
       </div>
     </div>
   );
 };
 
-export default Menu;
+export default Layout;

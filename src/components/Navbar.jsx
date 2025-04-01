@@ -4,7 +4,7 @@ import { FaBell } from 'react-icons/fa';
 import { useTheme } from '../context/ThemeContext';
 
 const userNavigation = [
-  { name: 'Tu Perfil', href: '#' },
+  { name: 'Tu Perfil', href: '/profile' },
   { name: 'Cerrar Sesión', href: '/login' },
 ];
 
