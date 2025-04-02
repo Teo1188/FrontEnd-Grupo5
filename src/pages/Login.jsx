@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../store/authSlice';
+import { FaSpinner } from 'react-icons/fa';
 
 const schema = yup.object({
   email: yup.string().email("Debe ser un email válido").required("El email es requerido."),
@@ -10,12 +13,30 @@ const schema = yup.object({
 }).required();
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const { loading, error, token } = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema)
   });
+
+  useEffect(() => {
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, [token, navigate]);
+
+  const onSubmit = async (data) => {
+    try {
+      await dispatch(loginUser(data)).unwrap();
+    } catch (error) {
+      // El error ya se muestra desde el estado de Redux
+      console.error("Error en login:", error);
+    }
+  };
 
   useEffect(() => {
     let interval;
@@ -39,12 +60,7 @@ const Login = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, []); 
-
-  const onSubmit = data => {
-    console.log(data);
-    navigate("/dashboard");
-  };
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-blue-800">
@@ -54,9 +70,9 @@ const Login = () => {
           
           <h1 className="text-2xl font-extrabold tracking-wide uppercase absolute top-6 left-6 z-10">AMADEUS</h1>
           
-          <div className="absolute inset-0 z-0 opacity-50">
+          <div className="absolute inset-0 opacity-40">
             <spline-viewer 
-              url="https://prod.spline.design/HcyR2qwOwEPfr7wU/scene.splinecode" 
+              url="https://prod.spline.design/HcyR2qwOwEPfr7wU/scene.splinecode"
               className="w-full h-full"
               loading="eager"
             ></spline-viewer>
@@ -67,6 +83,13 @@ const Login = () => {
           <h3 className="text-2xl font-bold text-blue-800 mb-6">Acceso al sistema</h3>
           <p className="mb-6 text-gray-600">Ingresa tus credenciales para continuar</p>
           
+          {/* Mensaje de error general */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <label className="block text-gray-700 mb-2">Correo electrónico</label>
@@ -109,11 +132,19 @@ const Login = () => {
               </Link>
             </div>
 
-            <button 
-              type="submit" 
-              className="w-full bg-blue-800 text-white py-2 rounded-md hover:bg-blue-900 transition duration-300"
+            <button
+              type="submit"
+              className="w-full bg-blue-800 text-white py-2 rounded-md hover:bg-blue-900 transition duration-300 flex justify-center items-center gap-2"
+              disabled={loading}
             >
-              Iniciar sesión
+              {loading ? (
+                <>
+                  <FaSpinner className="animate-spin" />
+                  <span>Procesando...</span>
+                </>
+              ) : (
+                'Iniciar sesión'
+              )}
             </button>
           </form>
         </div>
