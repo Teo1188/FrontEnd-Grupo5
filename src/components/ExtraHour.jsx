@@ -148,21 +148,7 @@ const ExtraHoursPanel = () => {
         status: "pendiente", // Minúsculas para coincidir con el schema
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        user: {
-          id: selectedEmployee.id,
-          name: selectedEmployee.name,
-          email: selectedEmployee.email || "user@example.com",
-          roleId: selectedEmployee.roleId || 0,
-          departmentId: selectedEmployee.departmentId || 0
-        },
-        extraHourType: selectedType || {
-          id: formData.extraHourTypeId,
-          name: selectedType?.name || "Extra"
-        },
-        approvedBy: {
-          id: 0,
-          name: "Sistema"
-        }
+        
       };
 
       console.log("Enviando datos:", dataToSend); // Para depuración
