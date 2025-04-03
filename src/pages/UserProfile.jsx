@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Camera, ArrowLeft, ChevronRight, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Menu from "../components/Menu";
-import { useTheme } from '../context/ThemeContext'; 
-import { useLanguage } from '../context/LanguageContext'; 
+import { useTheme } from '../context/ThemeContext';
 
 const UserProfile = () => {
   const navigate = useNavigate();
-  const { theme, isDark } = useTheme(); 
-  const { t } = useLanguage();
+  const { theme, isDark } = useTheme();
   const [profileImage, setProfileImage] = useState(null);
   const [userData, setUserData] = useState({
     nombre: "Tharaka",
@@ -27,7 +24,17 @@ const UserProfile = () => {
     if (storedImage) {
       setProfileImage(storedImage);
     }
-  }, []);
+
+    
+    document.body.className = isDark ? 'bg-gray-900' : 'bg-white';
+    
+    
+    const mainElement = document.querySelector('main');
+    if (mainElement) {
+      const classes = mainElement.className.replace(/bg-\w+-\d+/g, '');
+      mainElement.className = `${classes} ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`.trim();
+    }
+  }, [isDark]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -42,9 +49,8 @@ const UserProfile = () => {
     <div className={`flex min-h-screen transition-colors duration-200 ${
       isDark 
         ? "bg-gradient-to-b from-gray-900 to-gray-800" 
-        : "bg-gradient-to-b from-[#D7D2CB] to-gray-300"
-    }`}>
-      <Menu />
+        : "bg-gradient-to-b from-[#ffffff] to-gray-300"
+    }`}>  
 
       <div className="flex-1 p-6">
         <div className={`w-full max-w-2xl mx-auto rounded-3xl shadow-xl overflow-hidden transition-colors duration-200 ${

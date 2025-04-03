@@ -9,13 +9,11 @@ import EditProfile from './pages/EditProfile';
 import PasswordRecovery from './pages/PasswordRecovery';
 import Settings from './pages/Settings';
 import { ThemeProvider } from './context/ThemeContext'; 
-import { LanguageProvider } from './context/LanguageContext'; 
 import ProtectedRoute from './routes/ProtectedRoute';
 
 const App = () => {
   return (
     <ThemeProvider>
-      <LanguageProvider>
         <Router>
           <Routes>
             <Route path="/" element={<Navigate to="/login" replace />} />
@@ -36,7 +34,6 @@ const App = () => {
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         </Router>
-      </LanguageProvider>
     </ThemeProvider>
   );
 };

@@ -19,7 +19,7 @@ export const loginUser = createAsyncThunk(
         let errorMessage = "Error de conexión";
         if (error.response) {
           if (error.response.status === 401) {
-            errorMessage = "Credenciales incorrectas. Por favor verifica tus datos.";
+            errorMessage = "Credenciales incorrectas. Verifica tus datos.";
           } else {
             errorMessage = error.response.data?.message || `Error ${error.response.status}`;
           }
