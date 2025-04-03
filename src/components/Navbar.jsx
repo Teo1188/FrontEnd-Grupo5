@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { useTheme } from '../context/ThemeContext';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout, fetchUserDetails } from '../store/authSlice';
+import { logout } from '../store/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
@@ -13,12 +13,6 @@ const Navbar = () => {
   // Obtener datos del usuario desde Redux
   const { user, isAuthenticated, email } = useSelector((state) => state.auth);
   
-  // Disparar la carga de detalles al montar el componente si está autenticado
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(fetchUserDetails());
-    }
-  }, [isAuthenticated, dispatch]);
 
   // Obtener iniciales (primera letra del nombre o email)
   const getInitials = () => {
@@ -61,7 +55,7 @@ const Navbar = () => {
           <p className={`text-sm transition-colors duration-200 ${
             isDark ? "text-gray-400" : "text-gray-500"
           }`}>
-            {user?.role || 'Empleado'}
+            {user?.roleId === 1? 'Administrador':'Empleado'}
           </p>
         </div>
       

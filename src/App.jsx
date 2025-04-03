@@ -8,7 +8,7 @@ import UserProfile from './pages/UserProfile';
 import EditProfile from './pages/EditProfile';
 import PasswordRecovery from './pages/PasswordRecovery';
 import Settings from './pages/Settings';
-import { ThemeProvider } from './context/ThemeContext'; 
+import { ThemeProvider } from './context/ThemeContext';
 import ProtectedRoute from './routes/ProtectedRoute';
 
 const App = () => {
