@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, Users, UserPlus, UserCheck, UserX, User } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { useLanguage } from '../context/LanguageContext';
 import { FaSearch, FaTimes } from "react-icons/fa";
 
 const AdminPanel = ({ onClose }) => {
   const { theme, isDark } = useTheme();
-  const { t } = useLanguage();
 
   // Datos de ejemplo - reemplazar con datos reales
   const [registros, setRegistros] = useState([
@@ -27,12 +25,22 @@ const AdminPanel = ({ onClose }) => {
       horas: "2",
       tipoHoraExtra: "Nocturna",
       estado: "Pendiente"
+    },
+    {
+      id: 3,
+      nombre: "Mark",
+      fecha: "2023-05-16",
+      actividad: "Informe mensual",
+      horas: "2",
+      tipoHoraExtra: "Nocturna",
+      estado: "Pendiente"
     }
   ]);
 
   const [empleados, setEmpleados] = useState([
     { id: 1, nombre: "Juan Pérez", email: "juan@empresa.com", rol: "empleado" },
-    { id: 2, nombre: "María García", email: "maria@empresa.com", rol: "supervisor" }
+    { id: 2, nombre: "María García", email: "maria@empresa.com", rol: "supervisor" },
+    { id: 2, nombre: "Mark", email: "mark@empleado.com", rol: "empleado" }
   ]);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -100,15 +108,6 @@ const AdminPanel = ({ onClose }) => {
 
   return (
     <div className="relative">
-      <button 
-        onClick={onClose}
-        className={`absolute top-4 right-4 p-2 rounded-full z-50 ${
-          isDark ? "bg-gray-700 hover:bg-gray-600" : "bg-gray-200 hover:bg-gray-300"
-        }`}
-        title="Cerrar panel"
-      >
-        <FaTimes />
-      </button>
 
       <div className={`min-h-screen w-full ${mainBgColor} text-${isDark ? "white" : "gray-800"} transition-colors duration-200`}>
         <div className="container mx-auto p-6 space-y-6">
@@ -227,7 +226,7 @@ const AdminPanel = ({ onClose }) => {
                               <button 
                                 onClick={() => manejarAprobacion(registro.id, 'aprobar')}
                                 className={`px-3 py-1 rounded text-sm ${
-                                  isDark ? "bg-green-700 hover:bg-green-800" : "bg-green-600 hover:bg-green-700"
+                                  isDark ? "bg-blue-700 hover:bg-blue-800" : "bg-blue-600 hover:bg-blue-700"
                                 } text-white`}
                               >
                                 Aprobar

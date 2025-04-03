@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Clock } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-import { useLanguage } from '../context/LanguageContext';
 import { FaSearch } from "react-icons/fa";
 
 const ExtraHoursPanel = () => {
-  const { theme, isDark } = useTheme(); 
-  const { t } = useLanguage();
+  const { theme, isDark } = useTheme();
   const [registros, setRegistros] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredRegistros, setFilteredRegistros] = useState([]);

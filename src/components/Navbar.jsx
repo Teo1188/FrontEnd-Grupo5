@@ -12,17 +12,24 @@ const Navbar = () => {
   const navigate = useNavigate();
   
   // Obtener datos del usuario desde Redux
-  const { user, email } = useSelector((state) => state.auth);
+  const { email } = useSelector((state) => state.auth);
   
-  // Extraer el nombre del email (parte antes del @)
-  const username = email ? email.split('@')[0] : 'Usuario';
+  // Extraer partes del email
+  const [username, domain] = email ? email.split('@') : ['Usuario', 'empleado'];
+  
+  // Formatear el dominio como rol (ej: "admin.com" -> "Admin")
+  const role = domain 
+    ? domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1)
+    : 'Empleado';
+
+  // Obtener iniciales (primera letra del nombre)
   const initials = username 
-    ? username.split(' ').map(name => name[0]).join('').toUpperCase()
-    : 'US';
+    ? username.charAt(0).toUpperCase()
+    : 'U';
 
   const handleLogout = () => {
-    dispatch(logout()); // Despacha la acción de logout
-    navigate('/login'); // Redirige al login
+    dispatch(logout());
+    navigate('/login');
   };
 
   const userNavigation = [
@@ -34,24 +41,25 @@ const Navbar = () => {
     <header className={`shadow-md flex justify-between items-center p-4 transition-colors duration-200 ${
       isDark ? "bg-gray-800" : "bg-white"
     }`}>
+
+      {/* Logo Amadeus en la parte izquierda */}
+      <div className="flex items-center space-x-2">
+        <h1 className={`text-4xl font-bold text-blue-900 transition-colors duration-200 ${
+          isDark ? "text-gray-100" : "text-blue-900"
+        }`}>
+          Amadeus
+        </h1>
+      </div>
       
       <div className="ml-auto flex items-center space-x-4">
-        <button className={`relative transition-colors duration-200 ${
-          isDark ? "text-gray-300 hover:text-white" : "text-gray-600 hover:text-gray-800"
-        }`}>
-          <FaBell className="text-xl" />
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-            3
-          </span>
-        </button>
- 
+         
         <div className="text-right">
           <h3 className={`font-semibold transition-colors duration-200 ${
             isDark ? "text-gray-100" : "text-gray-800"
           }`}>{username}</h3>
           <p className={`text-sm transition-colors duration-200 ${
             isDark ? "text-gray-400" : "text-gray-500"
-          }`}>Empleado</p>
+          }`}>{role}</p>
         </div>
       
         <Menu as="div" className="relative">
@@ -59,7 +67,7 @@ const Navbar = () => {
             {initials}
           </MenuButton>
 
-          <MenuItems className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none transition-colors duration-200 ${
+          <MenuItems className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none transition-colors duration-200 z-50 ${
             isDark ? "bg-gray-700 ring-gray-600" : "bg-white"
           }`}>
             {userNavigation.map((item) => (
