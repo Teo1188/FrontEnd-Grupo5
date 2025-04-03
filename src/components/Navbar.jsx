@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
-import { FaBell } from 'react-icons/fa';
 import { useTheme } from '../context/ThemeContext';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../store/authSlice';
+import { logout, fetchUserDetails } from '../store/authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
@@ -12,20 +11,21 @@ const Navbar = () => {
   const navigate = useNavigate();
   
   // Obtener datos del usuario desde Redux
-  const { email } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, email } = useSelector((state) => state.auth);
   
-  // Extraer partes del email
-  const [username, domain] = email ? email.split('@') : ['Usuario', 'empleado'];
-  
-  // Formatear el dominio como rol (ej: "admin.com" -> "Admin")
-  const role = domain 
-    ? domain.split('.')[0].charAt(0).toUpperCase() + domain.split('.')[0].slice(1)
-    : 'Empleado';
+  // Disparar la carga de detalles al montar el componente si está autenticado
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchUserDetails());
+    }
+  }, [isAuthenticated, dispatch]);
 
-  // Obtener iniciales (primera letra del nombre)
-  const initials = username 
-    ? username.charAt(0).toUpperCase()
-    : 'U';
+  // Obtener iniciales (primera letra del nombre o email)
+  const getInitials = () => {
+    if (user?.name) return user.name.charAt(0).toUpperCase();
+    if (email) return email.charAt(0).toUpperCase();
+    return 'U';
+  };
 
   const handleLogout = () => {
     dispatch(logout());
@@ -42,7 +42,7 @@ const Navbar = () => {
       isDark ? "bg-gray-800" : "bg-white"
     }`}>
 
-      {/* Logo Amadeus en la parte izquierda */}
+      {/* Logo en la parte izquierda */}
       <div className="flex items-center space-x-2">
         <h1 className={`text-4xl font-bold text-blue-900 transition-colors duration-200 ${
           isDark ? "text-gray-100" : "text-blue-900"
@@ -52,19 +52,22 @@ const Navbar = () => {
       </div>
       
       <div className="ml-auto flex items-center space-x-4">
-         
         <div className="text-right">
           <h3 className={`font-semibold transition-colors duration-200 ${
             isDark ? "text-gray-100" : "text-gray-800"
-          }`}>{username}</h3>
+          }`}>
+            {user?.name || email?.split('@')[0] || 'Usuario'}
+          </h3>
           <p className={`text-sm transition-colors duration-200 ${
             isDark ? "text-gray-400" : "text-gray-500"
-          }`}>{role}</p>
+          }`}>
+            {user?.role || 'Empleado'}
+          </p>
         </div>
       
         <Menu as="div" className="relative">
           <MenuButton className="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold focus:outline-none hover:bg-blue-700 transition-colors duration-200">
-            {initials}
+            {getInitials()}
           </MenuButton>
 
           <MenuItems className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg ring-1 ring-black/5 focus:outline-none transition-colors duration-200 z-50 ${
