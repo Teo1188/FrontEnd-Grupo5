@@ -27,6 +27,44 @@ const ExtraHoursPanel = () => {
   });
 
   const [totalHours, setTotalHours] = useState(0);
+  const [overtimeData, setOvertimeData] = useState({
+    totalHoras: 0,
+    horasAprobadas: 0,
+    horasPendientes: 0
+  });
+
+  // Función para calcular y redondear horas
+  const calculateRoundedHours = (startTime, endTime) => {
+    if (!startTime || !endTime) return 0;
+    const start = new Date(`2000-01-01T${startTime}`);
+    const end = new Date(`2000-01-01T${endTime}`);
+    const diff = (end - start) / (1000 * 60 * 60);
+    return Math.round(diff > 0 ? diff : 0);
+  };
+
+  // Calcular resumen de horas extras
+  const calculateOvertimeSummary = (registros) => {
+    let total = 0;
+    let aprobadas = 0;
+    let pendientes = 0;
+
+    registros.forEach(registro => {
+      const horas = calculateRoundedHours(registro.startTime, registro.endTime);
+      total += horas;
+      
+      if (registro.status === "Aprobado") {
+        aprobadas += horas;
+      } else if (registro.status === "Pendiente") {
+        pendientes += horas;
+      }
+    });
+
+    setOvertimeData({
+      totalHoras: total,
+      horasAprobadas: aprobadas,
+      horasPendientes: pendientes
+    });
+  };
 
   // Cargar datos iniciales
   useEffect(() => {
@@ -43,6 +81,7 @@ const ExtraHoursPanel = () => {
         // Cargar registros existentes
         const overtimeResponse = await api.get('/api/extra-hours');
         setRegistros(overtimeResponse.data);
+        calculateOvertimeSummary(overtimeResponse.data);
         
         // Cargar roles
         const rolesResponse = await api.get('/api/roles');
@@ -53,21 +92,27 @@ const ExtraHoursPanel = () => {
         setDepartamentos(deptResponse.data);
       } catch (error) {
         console.error("Error loading data:", error);
+        alert("Error al cargar datos iniciales");
       }
     };
     
     loadInitialData();
   }, []);
 
-  // Calcular total de horas
+  // Calcular total de horas en el formulario
   useEffect(() => {
     if (formData.startTime && formData.endTime) {
       const start = new Date(`2000-01-01T${formData.startTime}`);
       const end = new Date(`2000-01-01T${formData.endTime}`);
-      const diff = (end - start) / (1000 * 60 * 60); // Diferencia en horas
+      const diff = (end - start) / (1000 * 60 * 60);
       setTotalHours(diff > 0 ? diff : 0);
     }
   }, [formData.startTime, formData.endTime]);
+
+  // Actualizar resumen cuando cambian los registros
+  useEffect(() => {
+    calculateOvertimeSummary(registros);
+  }, [registros]);
 
   // Filtrar empleados basado en búsqueda
   const empleadosFiltrados = empleados.filter(emp =>
@@ -134,28 +179,21 @@ const ExtraHoursPanel = () => {
     }
     
     try {
-      // Obtener el tipo de hora extra seleccionado
       const selectedType = extraHourTypes.find(t => t.id === formData.extraHourTypeId);
       
-      // Preparar los datos según el esquema del backend
       const dataToSend = {
         userId: selectedEmployee.id,
-        date: new Date(formData.date).toISOString(), // Formato ISO
-        startTime: formData.startTime.includes(':') ? formData.startTime : `${formData.startTime}:00`, // Asegurar formato HH:MM:00
-        endTime: formData.endTime.includes(':') ? formData.endTime : `${formData.endTime}:00`, // Asegurar formato HH:MM:00
+        date: new Date(formData.date).toISOString(),
+        startTime: formData.startTime.includes(':') ? formData.startTime : `${formData.startTime}:00`,
+        endTime: formData.endTime.includes(':') ? formData.endTime : `${formData.endTime}:00`,
         extraHourTypeId: formData.extraHourTypeId,
         reason: formData.reason || null,
-        status: "pendiente", // Minúsculas para coincidir con el schema
+        status: "pendiente",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        
       };
 
-      console.log("Enviando datos:", dataToSend); // Para depuración
-
       const response = await api.post('/api/extra-hours', dataToSend);
-      
-      // Actualizar lista de registros
       setRegistros([...registros, response.data]);
       
       // Resetear formulario
@@ -176,15 +214,12 @@ const ExtraHoursPanel = () => {
       
     } catch (error) {
       console.error("Error al registrar:", error.response?.data || error.message);
-      
       let errorMessage = "Error al registrar horas extras";
       if (error.response?.data) {
-        // Mostrar el mensaje de error del backend si está disponible
         errorMessage = typeof error.response.data === 'object' 
           ? JSON.stringify(error.response.data) 
           : error.response.data;
       }
-      
       alert(errorMessage);
     }
   };
@@ -197,6 +232,40 @@ const ExtraHoursPanel = () => {
   return (
     <div className={`min-h-screen w-full ${mainBgColor} text-${isDark ? "white" : "gray-800"} transition-colors duration-200`}>
       <div className="container mx-auto p-6 space-y-6">
+        {/* Resumen de Horas Extras */}
+        <div className={`p-6 rounded-lg shadow transition-colors duration-200 ${panelBgColor}`}>
+          <h3 className="text-xl font-bold mb-4">Resumen de Horas Extras</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className={`p-5 rounded-lg text-center transition-colors duration-200 ${
+              isDark ? "bg-blue-900/30" : "bg-blue-50"
+            }`}>
+              <Clock className="mx-auto mb-3 text-blue-500" size={40} />
+              <h4 className={`text-base transition-colors duration-200 ${
+                isDark ? "text-gray-300" : "text-gray-600"
+              }`}>Total horas extra trabajadas</h4>
+              <p className="text-2xl font-bold text-blue-600">{overtimeData.totalHoras}</p>
+            </div>
+            <div className={`p-5 rounded-lg text-center transition-colors duration-200 ${
+              isDark ? "bg-green-900/30" : "bg-green-50"
+            }`}>
+              <Clock className="mx-auto mb-3 text-green-500" size={40} />
+              <h4 className={`text-base transition-colors duration-200 ${
+                isDark ? "text-gray-300" : "text-gray-600"
+              }`}>Horas aprobadas por administrador</h4>
+              <p className="text-2xl font-bold text-green-600">{overtimeData.horasAprobadas}</p>
+            </div>
+            <div className={`p-5 rounded-lg text-center transition-colors duration-200 ${
+              isDark ? "bg-yellow-900/30" : "bg-yellow-50"
+            }`}>
+              <Clock className="mx-auto mb-3 text-yellow-500" size={40} />
+              <h4 className={`text-base transition-colors duration-200 ${
+                isDark ? "text-gray-300" : "text-gray-600"
+              }`}>Horas pendientes por aprobar</h4>
+              <p className="text-2xl font-bold text-yellow-600">{overtimeData.horasPendientes}</p>
+            </div>
+          </div>
+        </div>
+
         {/* Formulario de Registro */}
         <div className={`p-6 rounded-lg shadow transition-colors duration-200 ${panelBgColor}`}>
           <h2 className="text-xl font-bold mb-4">Registrar Horas Extras</h2>
@@ -291,7 +360,7 @@ const ExtraHoursPanel = () => {
                     value={formData.date}
                     onChange={handleInputChange}
                     required
-                    min={new Date().toISOString().split('T')[0]} // No permitir fechas pasadas
+                    min={new Date().toISOString().split('T')[0]}
                   />
                 </div>
 
@@ -305,7 +374,7 @@ const ExtraHoursPanel = () => {
                     value={formData.startTime}
                     onChange={handleInputChange}
                     required
-                    step="3600" // Saltos de 1 hora
+                    step="3600"
                   />
                 </div>
 
@@ -319,17 +388,17 @@ const ExtraHoursPanel = () => {
                     value={formData.endTime}
                     onChange={handleInputChange}
                     required
-                    step="3600" // Saltos de 1 hora
+                    step="3600"
                   />
                 </div>
 
-                {/* Total de Horas (auto-calculado) */}
+                {/* Total de Horas (auto-calculado) - Mostrado como entero */}
                 <div>
                   <label className="block mb-1">Total de Horas</label>
                   <input
                     type="text"
                     className={`${inputStyle} w-full`}
-                    value={`${totalHours.toFixed(2)} horas`}
+                    value={`${Math.round(totalHours)} horas`}
                     readOnly
                   />
                 </div>
@@ -408,6 +477,7 @@ const ExtraHoursPanel = () => {
                   <th className="p-3">Fecha</th>
                   <th className="p-3">Horas</th>
                   <th className="p-3">Tipo</th>
+                  <th className="p-3">Total Horas</th>
                   <th className="p-3">Estado</th>
                   <th className="p-3">Acciones</th>
                 </tr>
@@ -419,41 +489,48 @@ const ExtraHoursPanel = () => {
                     registro.date?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                     registro.extraHourType?.name?.toLowerCase().includes(searchTerm.toLowerCase())
                   )
-                  .map(registro => (
-                    <tr key={registro.id} className={`border-t ${isDark ? "border-gray-700" : "border-gray-200"}`}>
-                      <td className="p-3">{registro.user?.name}</td>
-                      <td className="p-3">{new Date(registro.date).toLocaleDateString()}</td>
-                      <td className="p-3">
-                        {registro.startTime} - {registro.endTime}
-                      </td>
-                      <td className="p-3">{registro.extraHourType?.name}</td>
-                      <td className="p-3">
-                        <span className={`px-2 py-1 rounded text-sm ${
-                          registro.status === "Pendiente" 
-                            ? isDark ? "bg-yellow-800/50 text-yellow-200" : "bg-yellow-100 text-yellow-800" 
-                            : isDark ? "bg-green-800/50 text-green-200" : "bg-green-100 text-green-800"
-                        }`}>
-                          {registro.status}
-                        </span>
-                      </td>
-                      <td className="p-3">
-                        <button 
-                          className={`px-3 py-1 rounded mr-2 ${
-                            isDark ? "bg-blue-700 text-white" : "bg-blue-100 text-blue-800"
-                          } transition-colors duration-200`}
-                        >
-                          Editar
-                        </button>
-                        <button 
-                          className={`px-3 py-1 rounded ${
-                            isDark ? "bg-red-700 text-white" : "bg-red-100 text-red-800"
-                          } transition-colors duration-200`}
-                        >
-                          Eliminar
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  .map(registro => {
+                    const horasTotales = calculateRoundedHours(registro.startTime, registro.endTime);
+                    
+                    return (
+                      <tr key={registro.id} className={`border-t ${isDark ? "border-gray-700" : "border-gray-200"}`}>
+                        <td className="p-3">{registro.user?.name}</td>
+                        <td className="p-3">{new Date(registro.date).toLocaleDateString()}</td>
+                        <td className="p-3">
+                          {registro.startTime} - {registro.endTime}
+                        </td>
+                        <td className="p-3">{registro.extraHourType?.name}</td>
+                        <td className="p-3 font-medium">
+                          {horasTotales} horas
+                        </td>
+                        <td className="p-3">
+                          <span className={`px-2 py-1 rounded text-sm ${
+                            registro.status === "Pendiente" 
+                              ? isDark ? "bg-yellow-800/50 text-yellow-200" : "bg-yellow-100 text-yellow-800" 
+                              : isDark ? "bg-green-800/50 text-green-200" : "bg-green-100 text-green-800"
+                          }`}>
+                            {registro.status}
+                          </span>
+                        </td>
+                        <td className="p-3">
+                          <button 
+                            className={`px-3 py-1 rounded mr-2 ${
+                              isDark ? "bg-blue-700 text-white" : "bg-blue-100 text-blue-800"
+                            } transition-colors duration-200`}
+                          >
+                            Editar
+                          </button>
+                          <button 
+                            className={`px-3 py-1 rounded ${
+                              isDark ? "bg-red-700 text-white" : "bg-red-100 text-red-800"
+                            } transition-colors duration-200`}
+                          >
+                            Eliminar
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

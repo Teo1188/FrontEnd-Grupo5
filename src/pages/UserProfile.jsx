@@ -1,33 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { Camera, ArrowLeft, ChevronRight, User } from "lucide-react";
+import { ArrowLeft, ChevronRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from '../context/ThemeContext';
 
 const UserProfile = () => {
   const navigate = useNavigate();
   const { theme, isDark } = useTheme();
-  const [profileImage, setProfileImage] = useState(null);
   const [userData, setUserData] = useState({
-    nombre: "Tharaka",
-    genero: "Masculino",
-    email: "tharaka@gmail.com",
-    cargo: "Auxiliar administrativo",
+    nombre: "",
+    genero: "Indefinido", // Valor por defecto para género
+    email: "",
+    cargo: "",
   });
 
   useEffect(() => {
-    const storedData = localStorage.getItem("userProfile");
-    if (storedData) {
-      setUserData(JSON.parse(storedData));
+    // Obtener datos del usuario desde localStorage
+    const userFromStorage = localStorage.getItem("user");
+    if (userFromStorage) {
+      const user = JSON.parse(userFromStorage);
+      
+      // Mapear los datos del localStorage a nuestro estado
+      setUserData({
+        nombre: user.name || "",
+        genero: "Indefinido", // Siempre empezará como indefinido
+        email: user.email || "",
+        cargo: user.roleId === 1 ? "Administrador" : "Empleado", // Ejemplo básico de mapeo de roles
+      });
+
+      // Opcional: Si existe userProfile en localStorage, mantener el género
+      const storedProfile = localStorage.getItem("userProfile");
+      if (storedProfile) {
+        const profileData = JSON.parse(storedProfile);
+        setUserData(prev => ({
+          ...prev,
+          genero: profileData.genero || "Indefinido"
+        }));
+      }
     }
 
-    const storedImage = localStorage.getItem("userProfileImage");
-    if (storedImage) {
-      setProfileImage(storedImage);
-    }
-
-    
+    // Configuración del tema
     document.body.className = isDark ? 'bg-gray-900' : 'bg-white';
-    
     
     const mainElement = document.querySelector('main');
     if (mainElement) {
@@ -36,13 +48,9 @@ const UserProfile = () => {
     }
   }, [isDark]);
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setProfileImage(imageUrl);
-      localStorage.setItem("userProfileImage", imageUrl);
-    }
+  // Obtener la primera letra del nombre para el avatar
+  const getInitial = () => {
+    return userData.nombre ? userData.nombre.charAt(0).toUpperCase() : "U";
   };
 
   return (
@@ -58,8 +66,8 @@ const UserProfile = () => {
         }`}>
           <div className={`relative h-36 flex items-center justify-center transition-colors duration-200 ${
             isDark 
-              ? "bg-gradient-to-r from-blue-800 to-blue-900" 
-              : "bg-gradient-to-r from-blue-500 to-blue-700"
+              ? "bg-gradient-to-t from-blue-900 to-blue-400" 
+              : "bg-gradient-to-t from-blue-500 to-blue-700"
           }`}>
             <ArrowLeft 
               className="absolute top-6 left-6 text-white cursor-pointer" 
@@ -71,22 +79,13 @@ const UserProfile = () => {
             </Link>
           </div>
 
-          <div className="relative -mt-16 flex justify-center mb-8">
-            <label className="relative cursor-pointer">
-              <input type="file" className="hidden" onChange={handleImageChange} accept="image/*" />
-              <div className="w-36 h-36 rounded-full border-4 border-white bg-gray-200 shadow-lg flex items-center justify-center overflow-hidden">
-                {profileImage ? (
-                  <img src={profileImage} alt="Perfil" className="w-full h-full object-cover" />
-                ) : (
-                  <User size={72} className="text-gray-500" />
-                )}
-              </div>
-              <div className={`absolute bottom-2 right-2 p-2.5 rounded-full shadow-md transition-colors duration-200 ${
-                isDark ? 'bg-gray-700' : 'bg-white'
-              }`}>
-                <Camera size={20} className="text-blue-500" />
-              </div>
-            </label>
+          {/* Avatar del usuario */}
+          <div className="relative -mt-12 flex justify-center mb-8">
+            <div className={`w-24 h-24 rounded-full flex items-center justify-center text-4xl font-bold text-white shadow-lg ${
+              isDark ? "bg-blue-700" : "bg-blue-600"
+            }`}>
+              {getInitial()}
+            </div>
           </div>
 
           <div className="px-8 pb-8">
@@ -98,10 +97,10 @@ const UserProfile = () => {
 
             <div className="mt-4 space-y-4">
               {[
-                { label: "Nombre", value: userData.nombre },
+                { label: "Nombre", value: userData.nombre || "No especificado" },
                 { label: "Género", value: userData.genero },
-                { label: "Correo electrónico", value: userData.email },
-                { label: "Cargo", value: userData.cargo },
+                { label: "Correo electrónico", value: userData.email || "No especificado" },
+                { label: "Cargo", value: userData.cargo || "No especificado" },
               ].map((item, index) => (
                 <div key={index} className={`flex justify-between items-center py-3.5 border-b transition-colors duration-200 ${
                   isDark ? "border-gray-700" : "border-gray-200"
