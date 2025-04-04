@@ -32,11 +32,16 @@ const EditProfile = () => {
     alert("Perfil actualizado con éxito");
     navigate("/profile");
   };
+
+  // Obtener la primera letra del nombre para el avatar
+  const getInitial = () => {
+    return formData.nombre ? formData.nombre.charAt(0).toUpperCase() : "U";
+  };
   
   return (
     <div className={`w-screen h-screen flex items-center justify-center p-4 overflow-hidden transition-colors duration-200 ${
       isDark 
-        ? "bg-gray-900" // Cambiado a un color sólido para el fondo oscuro
+        ? "bg-gray-900"
         : "bg-gradient-to-b from-[#D7D2CB] to-gray-300"
     }`}>
       <div className={`w-full max-w-lg rounded-3xl shadow-xl p-6 transition-colors duration-200 ${
@@ -51,6 +56,15 @@ const EditProfile = () => {
             <ArrowLeft size={24} />
           </Link>
           <h2 className="text-lg font-semibold text-white mx-auto">Editar perfil</h2>
+        </div>
+
+        {/* Avatar del usuario - Igual que en Navbar */}
+        <div className="flex justify-center mt-6">
+          <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg font-semibold text-white ${
+            isDark ? "bg-blue-700" : "bg-blue-600"
+          }`}>
+            {getInitial()}
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
