@@ -50,10 +50,10 @@ FrontEnd-Grupo5/
 
 Equipo 5:
 
-:runner: Duvan Andrés Contreras Franco
-:runner: Maria Alejandra Salazar Tangarife
-:runner: Mayerly Cristina Salas Pareja
-:runner: Juliana Zapata Restrepo
-:runner: Felipe Ramirez Yepes
-:runner: Michell Londoño Marin
-:runner: Estivenson Tadeo Gaviria Florez
+- 🏃 Duvan Andrés Contreras Franco  
+- 🏃 Maria Alejandra Salazar Tangarife  
+- 🏃 Mayerly Cristina Salas Pareja  
+- 🏃 Juliana Zapata Restrepo  
+- 🏃 Felipe Ramirez Yepes  
+- 🏃 Michell Londoño Marin  
+- 🏃 Estivenson Tadeo Gaviria Florez 
